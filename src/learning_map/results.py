@@ -1,6 +1,6 @@
 """成績紀錄：每跑完一個模型就記一筆，之後可以跨 notebook 比較。
 
-    from ml_dl_llm.results import log_result, compare
+    from learning_map.results import log_result, compare
 
     log_result("cifar10", "ResNet-18", classification_metrics(y, pred), epochs=20, augment=True)
     compare("cifar10", metric="accuracy")      # 表格 + 長條圖

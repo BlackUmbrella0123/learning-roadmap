@@ -13,7 +13,7 @@ Oct 18, 2026 · @BlackUmbrella
 | 3. 手寫模型 | 用 NumPy 從公式實作核心演算法，並做小實驗（標準化、學習率、seed 等） | 結構仿 sklearn：`fit`、`predict`、`w_`、`b_` |
 | 4. 套件實作 | 用 sklearn／PyTorch 跑同一個模型，**與手寫版比對結果**（係數或預測應幾乎一致） | 前處理一律包進 `Pipeline` |
 | 5. 調參 | 見下方「調參流程」；全程不碰測試集 | `validation_curve`、`GridSearchCV`、`RandomizedSearchCV` |
-| 6. 測試集評估 | 用最佳參數在完整訓練集 refit，**測試集只評估一次**，成績寫入紀錄 | `ml_dl_llm.metrics`、`log_result`、`compare` |
+| 6. 測試集評估 | 用最佳參數在完整訓練集 refit，**測試集只評估一次**，成績寫入紀錄 | `learning_map.metrics`、`log_result`、`compare` |
 | 7. 診斷 | 看模型錯在哪：殘差圖、混淆矩陣、錯誤樣本、學習曲線 | 判斷瓶頸在資料、特徵還是模型 |
 | 8. 本章小結 | 結果表、核心觀念、待補強清單（見下方「學習模式」） | notebook 最後一格 markdown |
 
@@ -89,7 +89,7 @@ Oct 18, 2026 · @BlackUmbrella
 
 - **資料集來源**：`sklearn` 內建（`from sklearn.datasets import ...`）、`torchvision` / `torchtext`、Hugging Face Datasets（`load_dataset("名稱")`）、Kaggle、UCI Machine Learning Repository。
 - **實驗追蹤**：第十部分做完實驗追蹤之後，調參與最終成績同時記進 MLflow。
-- **每列流程**：依照上方「每章標準流程」與「學習模式」進行，成績用 `ml_dl_llm.results` 紀錄，與前面的模型比較。
+- **每列流程**：依照上方「每章標準流程」與「學習模式」進行，成績用 `learning_map.results` 紀錄，與前面的模型比較。
 - **標記「選讀」**：了解概念即可，不必實作。
 - **「實作」欄**（以 M4 Pro MacBook、PyTorch MPS 後端估計）：
   - ✋ 手刻：用 NumPy／PyTorch 從零寫模型並自己訓練，數分鐘到約 1 小時。
@@ -592,7 +592,7 @@ Seq2Seq 的注意力機制直接接到第五部分的 Transformer，建議放在
 | 課 | 主題 | 年份 | 核心原理 | 變體／延伸 | 推薦資料集 | 取得方式 | 實作 | 完成 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `01-data-versioning` | 資料版本管理（DVC） | 2017 | Git 只追蹤一個很小的指標檔（記錄資料的雜湊值），真正的資料放在另外的儲存空間；切換 commit 就能取回當時的資料，讓「程式、資料、結果」三者對得上 | pipeline（`dvc.yaml`：哪些步驟、輸入輸出是什麼，只重跑有變動的步驟）、參數與指標比較（`dvc exp`）；Git LFS、lakeFS、Delta Lake | 沿用本 repo 的資料（例如 Store Sales） | `dvc` 套件；遠端儲存先用本機資料夾 | ✋ 手刻 迷你版（用雜湊值存檔與取回，理解原理）＋🧰 `dvc`（在暫存資料夾開一個練習用的 Git repo，不影響本 repo） | ☐ |
-| `02-experiment-tracking` | 實驗追蹤 | 2018 | 自動記下每次實驗的參數、指標、程式版本與產出 | W&B、TensorBoard、Optuna dashboard | 沿用 ResNet（CIFAR-10）的調參 | `mlflow` 套件 | 🧰 套件（接上 `ml_dl_llm.results`） | ☐ |
+| `02-experiment-tracking` | 實驗追蹤 | 2018 | 自動記下每次實驗的參數、指標、程式版本與產出 | W&B、TensorBoard、Optuna dashboard | 沿用 ResNet（CIFAR-10）的調參 | `mlflow` 套件 | 🧰 套件（接上 `learning_map.results`） | ☐ |
 | `03-training-acceleration` | 訓練加速 | 2017 起 | 混合精度、gradient accumulation、`torch.compile`、DataLoader 平行化、profiler 找瓶頸 | DDP 多 GPU、FSDP、gradient checkpointing | CIFAR-10（ResNet-18） | `torchvision.datasets.CIFAR10` | ✋ 手刻（逐項開關、量測時間與記憶體；MPS 支援的項目有限） | ☐ |
 | `04-data-drift` | 資料漂移監控 | — | 比較訓練與上線資料的分布：PSI、KS 檢定、MMD、分類器偵測 | 概念漂移、Evidently、NannyML | Adult（依時間或族群切出漂移） | sklearn `fetch_openml("adult")` | ✋ 手刻 PSI／KS；報表用 🧰 套件 | ☐ |
 

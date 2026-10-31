@@ -1,7 +1,7 @@
 """評估指標：每種任務一個函式，全部回傳 `dict[str, float]`，
 可以直接丟給 `results.log_result` 記錄下來比較。
 
-    from ml_dl_llm.metrics import classification_metrics
+    from learning_map.metrics import classification_metrics
     classification_metrics(y_test, y_pred, y_prob)
     # {'accuracy': 0.96, 'precision': 0.95, 'recall': 0.96, 'f1': 0.95, 'roc_auc': 0.99}
 

@@ -10,7 +10,7 @@ build/
 .ipynb_checkpoints/
 
 # 資料集與模型權重（體積大，不進 git；results/ 的成績紀錄會進 git）
-data/
+/data/
 checkpoints/
 *.pt
 *.pth

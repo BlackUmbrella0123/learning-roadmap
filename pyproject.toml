@@ -1,5 +1,5 @@
 [project]
-name = "ml-dl-llm"
+name = "learning-map"
 version = "0.1.0"
 description = "從經典機器學習到深度學習、LLM 的實作學習紀錄"
 readme = "README.md"
@@ -19,16 +19,19 @@ dependencies = [
 ]
 
 [project.scripts]
-ml-dl-llm = "ml_dl_llm:main"
+learning-map = "learning_map:main"
 
 [build-system]
 requires = ["uv_build>=0.12.17,<0.13.0"]
 build-backend = "uv_build"
 
-# 各章節需要的套件分組安裝：
-#   uv sync                      → 核心 + dev + ml（第一章）
-#   uv sync --group dl           → 再加上 PyTorch（第二、三章）
-#   uv sync --all-groups         → 全部安裝（第七章的時序套件之後再加）
+# 各章節需要的套件分組安裝（章節編號對應 README 大綱）：
+#   uv sync                          → 核心 + dev + ml（第一章）
+#   uv sync --group dl               → 再加上 PyTorch（第三、四章）
+#   uv sync --group dl --group nlp   → 第五章 Transformer
+#   可以同時指定多個 --group；要全部裝用 --all-groups（體積很大）
+# uv 會把所有 group 放在一起解析版本：新增套件後跑 `uv lock`，
+# 留意輸出有沒有把 numpy、scikit-learn、torch 等核心套件降版。
 [dependency-groups]
 dev = [
     "ipykernel",
@@ -45,7 +48,25 @@ ml = [
     "hmmlearn",
     "sklearn-crfsuite",
 ]
-# 第二、三章：PyTorch 與影像
+# 第二章：統計方法（PyMC 貝氏、因果推論、存活分析、空間統計、極值理論）
+stats = [
+    "statsmodels",
+    "pymc",
+    "arviz",
+    "pygam",
+    "factor-analyzer",
+    "linearmodels",
+    "lifelines",
+    "dowhy",
+    "doubleml",
+    "econml",
+    "rdrobust",
+    "libpysal",
+    "esda",
+    "pykrige",
+    "yfinance",
+]
+# 第三、四章：PyTorch 與影像（之後各章的深度學習也都需要）
 dl = [
     "torch",
     "torchvision",
@@ -53,33 +74,69 @@ dl = [
     "pycocotools",
     "ultralytics",
 ]
-# 第三、四章：文字與 Transformer
+# 第四章 Word2Vec、第五章 Transformer／LLM、第九章 Whisper
 nlp = [
     "datasets",
     "transformers",
     "accelerate",
     "peft",
+    "trl",
+    "tiktoken",
     "gensim",
     "seqeval",
     "rouge-score",
     "sentence-transformers",
     "faiss-cpu",
     "pypdf",
+    "soundfile",  # 讀 FLAC 音檔（LibriSpeech / Whisper）
+    "jiwer",  # Whisper 的 WER（可先手刻再對照）
+    "mlx-lm; sys_platform == 'darwin' and platform_machine == 'arm64'",  # Mac 上取代 QLoRA 的 bitsandbytes
 ]
-# 第三、五章：生成模型
+# 第六章：時間序列
+# timesfm（第 25 課）的 PyPI 版本常限制 Python／jax 版本，學到時再單獨處理；
+# sktime 與 aeon 功能重疊，只裝 aeon（UCR 資料與 ROCKET）。
+ts = [
+    "statsmodels",
+    "arch",
+    "yfinance",
+    "prophet>=1.1.5",  # 1.1 以前沒有 wheel，要從原始碼建置會失敗
+    "kagglehub",  # Store Sales（Kaggle）
+    "statsforecast",
+    "hierarchicalforecast",
+    "datasetsforecast",
+    "gluonts",
+    "neuralforecast",
+    "pytorch-forecasting",
+    "chronos-forecasting",
+    "ruptures",
+    "aeon",
+]
+# 第七章：擴散模型（第四章 GAN 的 FID 也會用到 torch-fidelity）
 gen = [
     "diffusers",
     "torch-fidelity",
 ]
-# 第六章：強化學習與圖神經網路（LunarLander 另外需要 gymnasium[box2d]，見 data/rl_graph.py）
+# 第八章：強化學習與圖神經網路（LunarLander 另外需要 gymnasium[box2d]，見 data/rl_graph.py）
 rl = [
     "gymnasium",
     "stable-baselines3",
     "torch-geometric",
 ]
-# 第七章：時間序列 —— 先不放進來。
-# uv 會把所有 group 放在一起解析版本，時序套件（prophet、gluonts、neuralforecast 等）
-# 版本限制最多，會拖累整個環境。學到第七章時再用 `uv add --group ts ...` 加入並處理相容性。
+# 第九章：資料為中心、可解釋性、線上學習（深度學習的課另外要 dl，Whisper 要 nlp）
+other = [
+    "imbalanced-learn",
+    "snorkel",
+    "shap",
+    "river",
+    "yfinance",
+]
+# 第十章：工程與基礎設施
+eng = [
+    "mlflow",
+    "dvc",
+    "optuna",
+    "tensorboard",
+]
 
 [tool.uv]
 default-groups = ["dev", "ml"]
