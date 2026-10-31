@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 資料集與模型權重（體積大，不進 git；results/ 的成績紀錄會進 git）
+data/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# 各套件自動產生的訓練紀錄
+runs/
+lightning_logs/
+mlruns/
+wandb/
+
+# macOS
+.DS_Store

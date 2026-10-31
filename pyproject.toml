@@ -1,0 +1,85 @@
+[project]
+name = "ml-dl-llm"
+version = "0.1.0"
+description = "從經典機器學習到深度學習、LLM 的實作學習紀錄"
+readme = "README.md"
+authors = [
+    { name = "CYA", email = "black.umbrella.0123@protonmail.com" }
+]
+requires-python = ">=3.12,<3.13"
+# 核心套件：載入資料、評估、畫圖（data / metrics / results 模組本身只需要這些）
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "tqdm",
+]
+
+[project.scripts]
+ml-dl-llm = "ml_dl_llm:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+# 各章節需要的套件分組安裝：
+#   uv sync                      → 核心 + dev + ml（第一章）
+#   uv sync --group dl           → 再加上 PyTorch（第二、三章）
+#   uv sync --all-groups         → 全部安裝（第七章的時序套件之後再加）
+[dependency-groups]
+dev = [
+    "ipykernel",
+    "jupyterlab",
+    "ipywidgets",
+    "jupytext>=1.19.6",
+]
+# 第一章：經典機器學習
+ml = [
+    "xgboost",
+    "lightgbm",
+    "catboost",
+    "umap-learn",
+    "hmmlearn",
+    "sklearn-crfsuite",
+]
+# 第二、三章：PyTorch 與影像
+dl = [
+    "torch",
+    "torchvision",
+    "torchmetrics",
+    "pycocotools",
+    "ultralytics",
+]
+# 第三、四章：文字與 Transformer
+nlp = [
+    "datasets",
+    "transformers",
+    "accelerate",
+    "peft",
+    "gensim",
+    "seqeval",
+    "rouge-score",
+    "sentence-transformers",
+    "faiss-cpu",
+    "pypdf",
+]
+# 第三、五章：生成模型
+gen = [
+    "diffusers",
+    "torch-fidelity",
+]
+# 第六章：強化學習與圖神經網路（LunarLander 另外需要 gymnasium[box2d]，見 data/rl_graph.py）
+rl = [
+    "gymnasium",
+    "stable-baselines3",
+    "torch-geometric",
+]
+# 第七章：時間序列 —— 先不放進來。
+# uv 會把所有 group 放在一起解析版本，時序套件（prophet、gluonts、neuralforecast 等）
+# 版本限制最多，會拖累整個環境。學到第七章時再用 `uv add --group ts ...` 加入並處理相容性。
+
+[tool.uv]
+default-groups = ["dev", "ml"]
