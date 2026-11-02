@@ -14,3 +14,8 @@ time,model,accuracy,precision,recall,f1,roc_auc,params,notes
 2026-10-28 07:57,Perceptron 1-SE (sklearn),0.9,0.8333,1.0,0.9091,1.0,"{""penalty"": ""none"", ""average"": false}",
 2026-10-28 07:57,Perceptron CV-best (sklearn),0.95,1.0,0.9,0.9474,0.98,"{""alpha"": 0.001, ""average"": true, ""penalty"": ""l2""}",
 2026-10-28 07:57,"LogisticRegression C=1 (sklearn, ref)",0.9,0.9,0.9,0.9,0.99,"{""C"": 1.0}",
+2026-10-31 21:53,Dummy most_frequent,0.5,0.0,0.0,0.0,0.5,,
+2026-10-31 21:53,"Perceptron (scratch, 100 epochs)",0.95,1.0,0.9,0.9474,0.99,"{""epochs"": 100, ""seed"": 42}",
+2026-10-31 21:53,Perceptron 1-SE (sklearn),0.9,0.8333,1.0,0.9091,1.0,"{""penalty"": ""none"", ""average"": false}",
+2026-10-31 21:53,Perceptron CV-best (sklearn),0.95,1.0,0.9,0.9474,0.98,"{""alpha"": 0.001, ""average"": true, ""penalty"": ""l2""}",
+2026-10-31 21:53,"LogisticRegression C=1 (sklearn, ref)",0.9,0.9,0.9,0.9,0.99,"{""C"": 1.0}",
